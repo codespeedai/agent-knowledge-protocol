@@ -1,6 +1,6 @@
 # `.knowledge/`
 
-**The Codespeed Knowledge Protocol is an open standard for structured project knowledge. It's git-native, markdown-first, and tool-agnostic.**
+**The Codespeed Knowledge Protocol is an open standard for structured project knowledge for humans and agents. It's git-native, markdown-first, and tool-agnostic.**
 
 Every AI coding tool starts every session from zero. Your architecture, your decisions, your conventions are lost in each fresh session. This means that the smartest tools on earth can't remember what you told them yesterday, and simply memory files become garbled, stale, or sycophantic.
 
