@@ -123,11 +123,11 @@ Only `README.md` is required. Everything else is optional. Start with one file. 
 
 ## What Compounds
 
-- **Day 1.** Agent reads your conventions. Stops suggesting patterns you've already rejected.
-- **Week 2.** Agent reads your decision records. Understands *why* the architecture exists.
-- **Month 3.** Agent operates with a senior team member's institutional memory.
+Structured knowledge makes AI multiplicative. 
 
-Structured knowledge makes AI multiplicative. A frontier model with no project knowledge hallucinates your architecture. A smaller model with your decision records, conventions, and domain context ships correct code.
+1. Agent reads your conventions, decisions and documented systems and immediately begins building better code.
+2. Agent begins to understand why your architecture exists, and what solutions and systems fit best within it for new, wider areas of development. 
+3. Agent operates with a senior team member's institutional memory, building and adapting your knowledge layer over time as it learns. 
 
 ---
 
