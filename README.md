@@ -2,7 +2,7 @@
 
 **The Codespeed Agent Knowledge Protocol is an open standard for structured project knowledge in software development for humans and agents. It's git-native, markdown-first, and tool-agnostic.**
 
-Every AI coding tool starts every session from zero. Your architecture, your decisions, your conventions are lost in each fresh session. This means that the smartest tools on earth can't remember what you told them yesterday, and simply memory files become garbled, stale, or sycophantic.
+Every AI coding tool starts every session from zero. Your architecture, your decisions, your conventions are lost in each fresh session. This means that the smartest tools on earth can't remember what you told them yesterday, and simple memory files native to specific agent coding tools become garbled, stale, bloated, or sycophantic.
 
 `.knowledge/` is a directory convention for structured project knowledge. The structure and approach is simple: markdown files that live in your repo and are versioned with your code, making them readable by any AI agent within the context of code development on any part of your codebase.
 
