@@ -6,7 +6,7 @@ Every AI coding tool starts every session from zero. Your architecture, your dec
 
 `.knowledge/` is a directory convention for structured project knowledge. The structure and approach is simple: markdown files that live in your repo and are versioned with your code, making them readable by any AI agent within the context of code development on any part of your codebase.
 
-You can include anything in your knowledge directory from business context to design systems, your `.knowledge/` directory will begin to compound over time to build a flywheel of vastly improved code quality and value. 
+You can include anything in your knowledge directory — from business context to design systems. Over time, your `.knowledge/` directory compounds into a flywheel of vastly improved code quality and value.
 
 ---
 
@@ -51,34 +51,38 @@ Any AI tool that reads markdown can now consume your project's institutional mem
 Add a knowledge router to your `CLAUDE.md`:
 
 ```markdown
-## Knowledge
+## Knowledge Router
 
-Before answering architecture or convention questions, check `.knowledge/`:
+Read `.knowledge/README.md` first for the full routing table. Load sub-files on demand.
 
 | Question | Go To |
 |----------|-------|
-| Architecture decisions | `.knowledge/decisions/` |
-| System design | `.knowledge/architecture/overview.md` |
-| Coding patterns | `.knowledge/conventions/` |
-| Domain terms | `.knowledge/context/` |
+| "What are we building?" | `.knowledge/architecture/overview.md` |
+| "Why did we choose X?" | `.knowledge/decisions/` |
+| "How do we handle Y?" | `.knowledge/conventions/` |
+| "What does Z mean?" | `.knowledge/context/` |
 
-Always read `.knowledge/README.md` first for the full routing table.
+**Before proposing architectural changes**, read the relevant decision record.
+If a decision exists, do not suggest alternatives without understanding the rationale.
 ```
 
 ### .cursorrules / .windsurfrules
 
 ```markdown
-## Project Knowledge
+## Knowledge Router
 
-This project uses the .knowledge/ protocol for institutional memory.
-Before suggesting patterns or architectural changes, read .knowledge/README.md
-for the routing table. Decision records in .knowledge/decisions/ explain
-why choices were made -- do not suggest alternatives without reading them first.
+This project uses `.knowledge/` for institutional memory. Read `.knowledge/README.md`
+for the routing table before answering architecture, convention, or domain questions.
+
+Rules:
+- Read the relevant decision record before proposing alternatives to existing patterns
+- Check `.knowledge/conventions/` before suggesting style or structural changes
+- When a routing table entry exists for your question, follow it — don't guess
 ```
 
 ### Any Agent
 
-The protocol is tool-agnostic. If your agent can read a file, it can consume `.knowledge/`. Point it at `.knowledge/README.md` -- the routing table tells it where everything lives. No plugins. No configuration. Markdown files that any tool can read.
+The protocol is tool-agnostic. If your agent can read a file, it can consume `.knowledge/`. Point it at `.knowledge/README.md` — the routing table tells it where everything lives. No plugins. No configuration. Just markdown.
 
 ---
 
