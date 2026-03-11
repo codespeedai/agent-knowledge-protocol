@@ -198,7 +198,7 @@ Skills tell agents how to work. Knowledge tells agents what the team knows.
 ## License
 
 - **Code and templates:** [Apache 2.0](./LICENSE)
-- **Documentation and specification:** [CC-BY-4.0](./LICENSE-DOCS)
+- **Documentation:** [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)
 
 Copyright 2026 [Codespeed, Inc.](https://codespeed.ai)
 
