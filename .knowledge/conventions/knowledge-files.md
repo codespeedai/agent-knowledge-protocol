@@ -17,7 +17,7 @@ Every knowledge file is markdown with optional YAML frontmatter. Write for two a
 ```markdown
 ---
 type: decision          # decision | architecture | convention | context | api
-status: active          # draft | active | review | deprecated
+status: active          # draft | active | review | superseded | deprecated
 confidence: high        # high | medium | low | unknown
 last_validated: YYYY-MM-DD
 tags: []
@@ -42,6 +42,7 @@ Frontmatter is always optional. A plain markdown file with a clear title is vali
 | `tags` | string[] | Inferred | Freeform taxonomy |
 | `related` | string[] | None | Slugs of related files |
 | `supersedes` | string | None | What this replaced |
+| `superseded_by` | string | None | What replaced this (set when archiving) |
 | `decision_date` | date | None | When a decision was made |
 | `author` | string | None | Human or agent name |
 | `source` | string | None | Origin (PR, meeting, review) |

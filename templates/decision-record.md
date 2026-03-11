@@ -4,8 +4,9 @@ status: active
 confidence: high
 decision_date: YYYY-MM-DD
 tags: []
-# supersedes: previous-decision-slug  # Uncomment if replacing a prior decision
-# related: [other-doc-slug]           # Uncomment to link related knowledge
+# supersedes: previous-decision-slug    # Uncomment if replacing a prior decision
+# superseded_by: newer-decision-slug   # Set when archiving this decision
+# related: [other-doc-slug]            # Uncomment to link related knowledge
 ---
 
 # [Decision Title]: [Choice Made]

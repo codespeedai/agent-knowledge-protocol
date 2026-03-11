@@ -1,12 +1,16 @@
 # Agent Knowledge Protocol
 
-**The Codespeed Agent Knowledge Protocol is an open standard for structured project knowledge in software development for humans and agents. It's git-native, markdown-first, and tool-agnostic.**
+[![Agent Knowledge Protocol](https://img.shields.io/badge/.knowledge-v0.1.0-blue?style=flat-square)](https://github.com/codespeedai/agent-knowledge-protocol)
 
-Every AI coding tool starts every session from zero. Your architecture, your decisions, your conventions are lost in each fresh session. This means that the smartest tools on earth can't remember what you told them yesterday, and simple memory files native to specific agent coding tools become garbled, stale, bloated, or sycophantic.
+**An open standard for structured project knowledge in software development — for humans and AI agents.**
 
-`.knowledge/` is a directory convention for structured project knowledge. The structure and approach is simple: markdown files that live in your repo and are versioned with your code, making them readable by any AI agent within the context of code development on any part of your codebase.
+> Protocol Version: **0.1.0**
 
-You can include anything in your knowledge directory, from business context to design systems. Over time, your `.knowledge/` directory compounds into a flywheel of vastly improved code quality and business value.
+`.knowledge/` is a directory convention that gives any AI coding tool access to your project's institutional memory. It's git-native, markdown-first, and tool-agnostic — no plugins, no configuration, no vendor lock-in.
+
+Every AI coding tool starts every session from zero. Your architecture, your decisions, your conventions — lost. The smartest tools on earth can't remember what you told them yesterday. Tool-specific memory files become garbled, stale, bloated, or sycophantic.
+
+`.knowledge/` solves this with the simplest possible approach: markdown files that live in your repo, versioned with your code, readable by any AI agent on any part of your codebase. Include anything — from business context to design systems. Over time, your `.knowledge/` directory compounds into a flywheel of vastly improved code quality and business value.
 
 ## What Compounds
 
@@ -86,9 +90,34 @@ Rules:
 - When a routing table entry exists for your question, follow it — don't guess
 ```
 
+### GitHub Copilot
+
+Add to `.github/copilot-instructions.md`:
+
+```markdown
+## Knowledge Router
+
+This project uses `.knowledge/` for institutional memory.
+Read `.knowledge/README.md` for the routing table before answering questions
+about architecture, conventions, or domain context.
+
+- Check decision records before proposing alternatives to existing patterns
+- Check conventions before suggesting style or structural changes
+- Follow routing table entries — don't guess when a document exists
+```
+
 ### Any Agent
 
 The protocol is tool-agnostic. If your agent can read a file, it can consume `.knowledge/`. Point it at `.knowledge/README.md` — the routing table tells it where everything lives. No plugins. No configuration. Just markdown.
+
+For custom agents, add this to your system prompt:
+
+```
+This project contains a .knowledge/ directory with structured project context.
+Read .knowledge/README.md first — it contains a routing table that maps questions
+to specific documents. Follow the routing table before making assumptions about
+architecture, conventions, or domain concepts.
+```
 
 ---
 
@@ -120,10 +149,30 @@ A lookup table in your README that maps natural-language questions to specific d
   conventions/           # Coding patterns, naming rules, style decisions
   context/               # Domain knowledge, business logic, personas
   api/                   # API contracts, endpoints, auth flows
-  archive/               # Superseded docs (never deleted, always traceable)
+  archive/               # Superseded docs -- traceable history
 ```
 
 Only `README.md` is required. Everything else is optional. Start with one file. Add structure as knowledge accumulates through development.
+
+### Naming Conventions
+
+- **Decisions:** `YYYY-MM-DD-slug.md` — date-prefixed for chronological ordering. The date is when the decision was made, not when the file was created. Example: `2026-03-10-auth-strategy.md`
+- **Everything else:** `slug.md` — descriptive, lowercase, hyphen-separated. Example: `error-handling.md`, `domain-glossary.md`, `system-overview.md`
+
+Filenames should be self-describing. An agent reading just the filename should understand the topic without opening the file.
+
+### Archiving & Deletion
+
+When a decision is superseded or a convention changes:
+
+1. Set `status: superseded` in the original document's frontmatter
+2. Add `superseded_by: new-document-slug` pointing to the replacement
+3. Move the file to `archive/`
+4. Update the routing table in `README.md`
+
+The replacement document should include `supersedes: old-document-slug` in its frontmatter, creating a two-way link that lets agents trace the evolution of a decision.
+
+**Deletion is fine** when knowledge is truly obsolete — a removed feature, a deprecated API, a library you no longer use. Git history preserves the record. Archive when the context might still be useful for understanding current decisions; delete when it's just noise.
 
 ---
 
@@ -143,7 +192,9 @@ related: [session-management]
 ---
 ```
 
-All fields are optional. Tools infer missing values from the filename, directory, and git history. See the [full field reference](./.knowledge/conventions/knowledge-files.md) for details.
+All fields are optional. Tools infer missing values from the filename, directory, and git history.
+
+**[Full field reference](./.knowledge/conventions/knowledge-files.md)** — complete list of supported fields, types, and defaults.
 
 ---
 
@@ -157,6 +208,7 @@ Copy-paste starters for common document types:
 | [`decision-record.md`](./templates/decision-record.md) | Technical decisions and their rationale |
 | [`architecture-overview.md`](./templates/architecture-overview.md) | System design and components |
 | [`convention.md`](./templates/convention.md) | Coding patterns and team rules |
+| [`context.md`](./templates/context.md) | Domain knowledge, business rules, personas |
 | [`spec.md`](./templates/spec.md) | Technical specifications with phased implementation |
 
 Each template includes pre-filled frontmatter and inline guidance in HTML comments.
@@ -174,6 +226,52 @@ Each template includes pre-filled frontmatter and inline guidance in HTML commen
 
 ---
 
+## Conflict Resolution
+
+When knowledge and code disagree, or when two documents contradict each other:
+
+- **Code wins over docs.** If the codebase does X and a knowledge file says Y, the code is the source of truth. Update the knowledge file.
+- **Newer decisions supersede older ones.** Check `decision_date` or git history. If two decision records conflict, the more recent one governs.
+- **Specific wins over general.** A convention for "API error handling" overrides a general "error handling" convention when they conflict.
+
+---
+
+## When to Write a Knowledge File
+
+Not everything belongs in `.knowledge/`. Here's the heuristic:
+
+**Write a knowledge file when:**
+- A decision spans multiple files or affects system-wide behavior
+- A convention isn't enforceable by linters or type systems
+- Domain context can't be inferred from code, types, or naming alone
+- You've explained the same "why" to an agent (or a teammate) more than once
+- You chose between multiple valid approaches and want to prevent relitigating
+
+**Just use code comments when:**
+- The context is local to a single function or file
+- The "why" is obvious from the surrounding code
+- A type signature or test name already communicates the intent
+
+The line is simple: if an agent working on a *different* file would need this context, it belongs in `.knowledge/`. If only someone reading *this* file needs it, a comment is enough.
+
+---
+
+## Keeping Knowledge Fresh
+
+The biggest risk to any knowledge system is staleness. Two conventions prevent it:
+
+**1. Update in the same PR.** If your PR changes a decision or convention documented in `.knowledge/`, update the knowledge file in the same PR. Don't create a follow-up task — it won't happen.
+
+**2. Add a PR template checklist item.** Drop this into your `.github/pull_request_template.md`:
+
+```markdown
+- [ ] If this PR changes an architectural decision or team convention, the relevant `.knowledge/` file has been updated
+```
+
+Knowledge maintenance should be a side effect of normal development, not a separate activity.
+
+---
+
 ## This Repo Uses Its Own Protocol
 
 The [`.knowledge/`](./.knowledge) directory in this repository is a working example of the protocol. It contains the decision records and conventions for the protocol itself.
@@ -188,6 +286,23 @@ The [`.knowledge/`](./.knowledge) directory in this repository is a working exam
 | **Contains** | Coding patterns, review checklists, workflow rules | Decisions, architecture, domain context |
 
 Skills tell agents how to work. Knowledge tells agents what the team knows.
+
+---
+
+## Contributing
+
+`.knowledge/` is an open standard and contributions are welcome.
+
+- **Try it** — add a `.knowledge/` directory to your project and [tell us how it went](https://github.com/codespeedai/agent-knowledge-protocol/discussions)
+- **Report issues** — [open an issue](https://github.com/codespeedai/agent-knowledge-protocol/issues) for bugs, unclear docs, or missing guidance
+- **Propose changes** — submit a PR for template improvements, new integrations, or protocol enhancements
+- **Share templates** — built a useful knowledge file pattern? Contribute it to `templates/`
+
+**Add the badge to your project:**
+
+```markdown
+[![Agent Knowledge Protocol](https://img.shields.io/badge/.knowledge-v0.1.0-blue?style=flat-square)](https://github.com/codespeedai/agent-knowledge-protocol)
+```
 
 ---
 

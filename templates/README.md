@@ -15,6 +15,7 @@ Each template includes:
 | [`decision-record.md`](./decision-record.md) | Recording technical decisions and their rationale | Any decision worth remembering |
 | [`architecture-overview.md`](./architecture-overview.md) | Documenting system design and component relationships | Projects with non-trivial architecture |
 | [`convention.md`](./convention.md) | Codifying coding patterns and team rules | Teams that need consistency |
+| [`context.md`](./context.md) | Domain knowledge, business rules, and personas | Projects with non-obvious domain logic |
 | [`spec.md`](./spec.md) | Technical specifications with phased implementation | Projects with structured build phases |
 
 ## Usage
