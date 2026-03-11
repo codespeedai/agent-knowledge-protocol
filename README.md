@@ -38,7 +38,7 @@ Create `.knowledge/README.md`:
 - Our API follows [pattern] because [reason]
 ```
 
-Five minutes. Any AI tool that reads markdown can now consume your project's institutional memory.
+Any AI tool that reads markdown can now consume your project's institutional memory.
 
 ---
 
