@@ -6,7 +6,7 @@ Every AI coding tool starts every session from zero. Your architecture, your dec
 
 `.knowledge/` is a directory convention for structured project knowledge. The structure and approach is simple: markdown files that live in your repo and are versioned with your code, making them readable by any AI agent within the context of code development on any part of your codebase.
 
-You can include anything in your knowledge directory — from business context to design systems. Over time, your `.knowledge/` directory compounds into a flywheel of vastly improved code quality and value.
+You can include anything in your knowledge directory, from business context to design systems. Over time, your `.knowledge/` directory compounds into a flywheel of vastly improved code quality and business value.
 
 ---
 
